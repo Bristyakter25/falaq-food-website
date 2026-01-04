@@ -49,6 +49,56 @@ export default function FeaturedCategories() {
           </div>
         ))}
       </div>
+
+     <div className="grid mt-20 grid-cols-1 md:grid-cols-2 gap-4">
+ 
+  <div className="flex flex-col gap-4">
+ 
+    <div className="overflow-hidden h-[350px]">
+      <Image
+        src="/BEETROOT1.webp"
+        alt="Blog 1"
+        width={400}
+        height={300}
+        className="w-full h-full  transition-transform duration-500 hover:scale-110"
+      />
+    </div>
+
+  
+    <div className="flex gap-4">
+      <div className="overflow-hidden h-[250px] flex-1">
+        <Image
+          src="/garlic-honey2.webp"
+          alt="Blog 2"
+          width={400}
+          height={300}
+          className="w-full h-full  transition-transform duration-500 hover:scale-110"
+        />
+      </div>
+      <div className="overflow-hidden h-[250px] flex-1">
+        <Image
+          src="/garlic-honey3.webp"
+          alt="Blog 3"
+          width={400}
+          height={300}
+          className="w-full h-full  transition-transform duration-500 hover:scale-110"
+        />
+      </div>
+    </div>
+  </div>
+
+
+  <div className="overflow-hidden h-[615px]">
+    <Image
+      src="/blog4.webp"
+      alt="Blog 4"
+      width={400}
+      height={300}
+      className="w-full h-full  transition-transform duration-500 hover:scale-110"
+    />
+  </div>
+</div>
+
     </div>
   );
 }
