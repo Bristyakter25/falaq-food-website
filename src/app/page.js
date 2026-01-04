@@ -8,6 +8,7 @@ import Blogs from "./components/Blogs";
 import Reviews from "./components/Reviews";
 import VideoSection from "./components/VideoSection";
 import FeaturedCategories from "./components/FeaturedCategories";
+import ContactUs from "./components/ContactUs";
 
 export default function Page() {
 const [products, setProducts] = useState([])
@@ -28,6 +29,7 @@ const [products, setProducts] = useState([])
      <Reviews></Reviews>
      <VideoSection></VideoSection>
      <FeaturedCategories></FeaturedCategories>
+     <ContactUs></ContactUs>
     </div>
   );
 }
