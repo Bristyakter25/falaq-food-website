@@ -6,6 +6,7 @@ import Banner from "./components/Banner";
 import FeaturedProducts from "./components/FeaturedProducts";
 import Blogs from "./components/Blogs";
 import Reviews from "./components/Reviews";
+import VideoSection from "./components/VideoSection";
 
 export default function Page() {
 const [products, setProducts] = useState([])
@@ -24,6 +25,7 @@ const [products, setProducts] = useState([])
      <FeaturedProducts products={products} />
      <Blogs></Blogs>
      <Reviews></Reviews>
+     <VideoSection></VideoSection>
     </div>
   );
 }
