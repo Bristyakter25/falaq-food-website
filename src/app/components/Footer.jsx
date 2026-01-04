@@ -71,7 +71,7 @@ export default function Footer() {
         </div>
 
         {/* Right Section */}
-        <div className="ml-28 ">
+        <div className="md:ml-28  ">
           <h3 className="font-semibold text-xl text-center text-gray-700 mb-4">
             USEFUL LINKS
           </h3>

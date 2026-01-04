@@ -9,9 +9,9 @@ export default function ContactUs() {
         <section className="md:w-2/3">
           <h2 className="text-2xl md:text-3xl font-semibold text-white md:text-black">
             Join 100+ Companies That Trust{" "}
-            <span className="text-white md:text-[#159758]">Falaq Food</span>
+            <span className=" md:text-[#159758]">Falaq Food</span>
           </h2>
-          <p className="my-7 text-sm md:text-base text-white md:text-gray-800">
+          <p className="my-7 text-sm md:text-base md:text-gray-800">
             Whether you’re a company, reseller, or retailer — we’re ready to collaborate. 
             We offer attractive corporate deals, custom pricing, and reliable delivery to help fuel your operations with goodness.
           </p>
