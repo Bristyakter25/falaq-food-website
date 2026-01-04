@@ -28,7 +28,7 @@ export default function Navbar() {
      
     <div className="navbar bg-base-100 shadow-sm py-4 px-6">
 
-      {/* LEFT — Hamburger (mobile only) */}
+   
       <div className="navbar-start lg:hidden">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost">
@@ -77,7 +77,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* CENTER — Logo (always centered on mobile) */}
+   
       <div className="navbar-center">
         <img
           src="/falaq logo.webp"
@@ -86,7 +86,7 @@ export default function Navbar() {
         />
       </div>
 
-      {/* DESKTOP MENU */}
+
       <div className="navbar-center  hidden lg:flex">
         <ul className="menu menu-horizontal ml-7 text-sm font-medium gap-2">
 
@@ -135,7 +135,7 @@ export default function Navbar() {
   
 </label>
 
-      {/* RIGHT — Icons */}
+     
       <div className="navbar-end flex gap-4 text-xl">
         <FaRegUser className="cursor-pointer" />
         <div className="relative">
