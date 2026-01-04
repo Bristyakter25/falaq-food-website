@@ -37,8 +37,12 @@ export default function VideoSection() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           /> 
+
            
         </div>
+        <button className="block mt-10 mx-auto font-semibold bg-[#159758] text-white py-2 px-6">
+  VIEW MORE
+</button>
     </div>
   )
 }
