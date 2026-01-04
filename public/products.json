@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "name": "Flavour Box – প্রকৃতির চারটি ভিন্ন",
+    "price": "1,600 ৳",            
+    "originalPrice": "2,500",
+    "images": ["/Flavour-Box-1.webp",
+     "/Flavour-Box-2.webp", 
+     "/SorishaHoney.webp"]
+  },
+  {
+    "id": 2,
+    "name": "খেজুর বরফি – (Khejur Barfi)",
+    "price": "950 ৳  – 1,800 ৳ ",
+    "images": ["/khejurbarfi.1.webp", 
+    "/khejurbarfi.2.webp",
+    "/khejurbarfi.3.webp"]
+  },
+  {
+    "id": 3,
+    "name": "পাহাড়ি বন্য মধু (Pahari Natural)",
+    "price": "1,200 ৳",            
+    "originalPrice": "2,000 ৳", 
+    "images": ["/paharihoney.webp", 
+    "/paharihoney2-.webp",
+    "/paharihoney3.webp"]
+  },
+  {
+    "id": 4,
+    "name": "বিটরুট পাউডার (স্প্রে ড্রাইড)",
+    "price": "850 ৳  – 1,800 ৳ ",
+    "images": ["/BEETROOT1.webp", 
+    "/BEETROOT2.webp",
+    "/BEETROOT3-1.webp"]
+  },
+  {
+    "id": 5,
+    "name": "মেথি মিক্স – (Methi Mix)",
+    "price": "750 ৳ ",
+    "images": ["/methi1.webp", 
+    "/methi2.webp",
+    "/methi3.webp"]
+  },
+  {
+    "id": 6,
+    "name": "রসুনজিরা- (কালোজিরা, রসুন, মধু",
+    "price": "750 ৳ ",
+    "images": ["/garlic-honey1.webp", 
+    "/garlic-honey2.webp",
+    "/garlic-honey3.webp"]
+  },
+  {
+    "id": 7,
+    "name": "Patali Gur (পাটালি গুড়)",
+    "price": "600 ৳  – 1,500 ৳  ",
+    "images": ["/gur1.webp", 
+    "/gur2.webp",
+    "/gur3.webp"]
+  },
+  {
+    "id": 8,
+    "name": "খেজুর গুড় (Khejur Gur)",
+    "price": "600 ৳  – 1,500 ৳  ",
+    "images": ["/khejur-gur1.webp", 
+    "/khejur-gur2.webp",
+    "/khejur-gur3.webp"]
+  }
+
+]
