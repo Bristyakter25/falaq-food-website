@@ -15,12 +15,12 @@ export default function FeaturedProducts() {
   if (!products.length) return <p className="text-center py-10">Loading...</p>;
 
   return (
-    <div className="my-16">
+    <div className="mt-16 mb-6">
       <h2 className="text-center text-3xl font-semibold text-[#159758]">
         FEATURED PRODUCTS
       </h2>
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 my-12 mx-4">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mt-12 mb-7 mx-4">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
