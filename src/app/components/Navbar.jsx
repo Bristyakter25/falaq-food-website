@@ -16,7 +16,7 @@ export default function Navbar() {
     )
       .then((res) => res.json())
       .then((result) => {
-        // Remove duplicate parent categories
+      
         const uniqueCategories = Array.from(
           new Map((result?.data || []).map((cat) => [cat.parentCategory, cat]))
             .values()
@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <section>
-      {/* Top Banner */}
+    
       <div>
         <h2 className="text-white text-md py-2 px-7 text-center bg-[#159758]">
           আমাদের যে কোন পণ্য অর্ডার করতে WhatsApp করুন:{" "}
@@ -48,9 +48,9 @@ export default function Navbar() {
         </h2>
       </div>
 
-      {/* Navbar */}
+     
       <div className="navbar bg-base-100 py-4 px-6">
-        {/* Mobile Menu */}
+        
         <div className="navbar-start lg:hidden">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost">
@@ -120,7 +120,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Logo */}
+       
         <div className="navbar-center">
           <img
             src="/falaq logo.webp"
@@ -129,7 +129,7 @@ export default function Navbar() {
           />
         </div>
 
-        {/* Desktop Menu */}
+       
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal ml-7 text-sm font-medium gap-2">
             <li className="relative group">
@@ -181,7 +181,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Search & Icons */}
+      
         <label className="input flex ml-4 w-[880px] justify-between">
           <input type="search" required placeholder="Search for Products" />
           <svg

@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { IoLogoWhatsapp } from "react-icons/io5";
+import { useCart } from "@/context/CartContext";
+
+
+
 
 export default function ProductDetails() {
   const { id } = useParams(); // this is the _id of the product
@@ -14,6 +18,7 @@ export default function ProductDetails() {
   const [thumbStart, setThumbStart] = useState(0);
   const maxVisibleThumbs = 3;
 
+const { addToCart } = useCart();
   // Fetch product by _id
   useEffect(() => {
     fetch(`https://ecommerce-saas-server-wine.vercel.app/api/v1/product/${id}`, {
@@ -64,7 +69,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-14 grid md:grid-cols-2 gap-10 items-start">
+    <div className="max-w-5xl mx-auto py-14 grid md:grid-cols-2 gap-10 items-start">
 
       {/* LEFT: Images */}
       <div className="flex gap-x-3 sticky top-24 self-start">
@@ -140,13 +145,24 @@ export default function ProductDetails() {
             <button onClick={increaseQty} className="px-3">+</button>
           </div>
 
-          <button className="bg-[#159758] text-white px-6 py-3 font-semibold">
-            ADD TO CART
-          </button>
+          <button
+  className="bg-[#159758] text-white px-6 py-3 font-semibold"
+  onClick={() => addToCart(product, quantity)}
+>
+  ADD TO CART
+</button>
 
-          <button className="bg-[#159758] text-white px-6 py-3 font-semibold">
-            BUY NOW
-          </button>
+
+         <button
+  className="bg-black text-white px-6 py-3 font-semibold"
+  onClick={() => {
+    addToCart(product, quantity);
+    window.location.href = "/checkout";
+  }}
+>
+  BUY NOW
+</button>
+
         </div>
 
         <div className="flex gap-4 pt-4">
