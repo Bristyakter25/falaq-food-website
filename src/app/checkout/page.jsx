@@ -1,0 +1,203 @@
+"use client";
+
+import React, { useState } from "react";
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
+
+export default function CheckoutPage() {
+  const { cartItems, subtotal } = useCart();
+  const [shipping, setShipping] = useState(50); // Default to Inside Dhaka (50৳)
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    address: "",
+    notes: ""
+  });
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-bold text-gray-400 mb-4">Your cart is empty.</h2>
+        <Link href="/" className="bg-[#159758] text-white px-8 py-3 rounded uppercase font-bold text-sm">Return to Shop</Link>
+      </div>
+    );
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Order Data:", { ...formData, cartItems, subtotal, shipping, total: subtotal + shipping });
+    alert("Order logic would go here!");
+  };
+
+  return (
+    <div className="bg-white min-h-screen py-10 px-4">
+      <div className="max-w-4xl mx-auto">
+        <form onSubmit={handleSubmit}>
+          {/* 1. BILLING & SHIPPING SECTION */}
+          <section className="mb-12">
+            <h2 className="text-lg font-bold text-gray-800 border-b pb-2 mb-6 tracking-tight uppercase">
+              Billing & Shipping
+            </h2>
+            
+            <div className="space-y-5">
+              {/* Name */}
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1">
+                  আপনার নাম <span className="text-red-500">*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  placeholder="আপনার নাম লিখুন..."
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#159758]"
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                />
+              </div>
+
+              {/* Mobile */}
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1">
+                  মোবাইল নম্বর <span className="text-red-500">*</span>
+                </label>
+                <input
+                  required
+                  type="tel"
+                  placeholder="আপনার ফোন নাম্বার দিন"
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#159758]"
+                  onChange={(e) => setFormData({...formData, mobile: e.target.value})}
+                />
+              </div>
+
+              {/* Address */}
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1">
+                  আপনার ঠিকানা <span className="text-red-500">*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  placeholder="আপনার ঠিকানা লিখুন"
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#159758]"
+                  onChange={(e) => setFormData({...formData, address: e.target.value})}
+                />
+              </div>
+
+              {/* Order Notes */}
+              <div>
+                <label className="block text-xs font-bold text-gray-600 mb-1 uppercase">
+                  Order notes <span className="text-gray-300 font-normal">(optional)</span>
+                </label>
+                <textarea
+                  rows="3"
+                  placeholder="Notes about your order, e.g. special notes for delivery."
+                  className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:border-[#159758]"
+                  onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                ></textarea>
+              </div>
+
+              {/* Shipping Selection */}
+              <div className="border rounded-sm overflow-hidden">
+                <label className="flex items-center justify-between px-4 py-4 border-b border-gray-100 cursor-pointer bg-gray-50/30">
+                  <div className="flex items-center gap-3">
+                    <input 
+                      type="radio" 
+                      name="shipping" 
+                      checked={shipping === 50}
+                      onChange={() => setShipping(50)}
+                      className="accent-[#159758] w-4 h-4"
+                    />
+                    <span className="text-sm text-gray-600">Inside Dhaka:</span>
+                  </div>
+                  <span className="text-sm font-bold text-[#159758]">50 ৳</span>
+                </label>
+                
+                <label className="flex items-center justify-between px-4 py-4 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <input 
+                      type="radio" 
+                      name="shipping" 
+                      checked={shipping === 80}
+                      onChange={() => setShipping(80)}
+                      className="accent-[#159758] w-4 h-4"
+                    />
+                    <span className="text-sm text-gray-600">Outside Dhaka:</span>
+                  </div>
+                  <span className="text-sm font-bold text-[#159758]">80 ৳</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          {/* 2. YOUR ORDER SECTION */}
+          <section className="mb-8">
+            <h2 className="text-lg font-bold text-gray-800 text-center mb-8 uppercase tracking-widest">
+              Your Order
+            </h2>
+
+            <div className="border-t border-gray-200">
+              {/* Header */}
+              <div className="flex justify-between py-3 border-b border-gray-100 text-[10px] uppercase font-bold text-gray-400 tracking-widest">
+                <span>Product</span>
+                <span>Subtotal</span>
+              </div>
+
+              {/* Items List */}
+              {cartItems.map((item) => (
+                <div key={item._id} className="flex items-center justify-between py-4 border-b border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={item.imageURLs?.[0]} 
+                      alt="" 
+                      className="w-12 h-12 object-cover"
+                    />
+                    <span className="text-xs text-gray-600 font-bold max-w-[250px]">
+                      {item.name} <span className="text-gray-400 font-normal lowercase ml-1">× {item.quantity}</span>
+                    </span>
+                  </div>
+                  <span className="text-xs font-bold text-gray-400">
+                    {(item.salePrice || item.productPrice) * item.quantity} ৳
+                  </span>
+                </div>
+              ))}
+
+              {/* Subtotal Row */}
+              <div className="flex justify-between py-4 border-b border-gray-100 text-xs text-gray-400 font-bold uppercase tracking-widest">
+                <span>Subtotal</span>
+                <span>{subtotal} ৳</span>
+              </div>
+
+              {/* Total Row */}
+              <div className="flex justify-between py-4 text-xs font-bold uppercase tracking-widest border-b border-gray-100">
+                <span className="text-gray-800">Total</span>
+                <span className="text-[#159758] text-lg">{subtotal + shipping} ৳</span>
+              </div>
+            </div>
+          </section>
+
+          {/* 3. PAYMENT SECTION */}
+          <section className="bg-gray-50 p-6 rounded-sm mb-6">
+            <div className="flex flex-col gap-4">
+              <div className="font-bold text-xs text-gray-700">Cash on delivery</div>
+              <div className="relative bg-white p-4 border border-gray-100 text-xs text-gray-500 leading-relaxed shadow-sm">
+                Pay with cash upon delivery.
+                <div className="absolute -top-2 left-4 w-4 h-4 bg-white border-l border-t border-gray-100 rotate-45"></div>
+              </div>
+            </div>
+          </section>
+
+          <p className="text-[10px] text-gray-400 mb-8 leading-relaxed">
+            Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
+          </p>
+
+          <button 
+            type="submit"
+            className="w-full bg-[#159758] text-white py-4 font-black text-sm uppercase tracking-widest hover:bg-black transition-all"
+          >
+            Place Order {subtotal + shipping} ৳
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
