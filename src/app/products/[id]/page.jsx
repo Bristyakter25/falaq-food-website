@@ -138,15 +138,15 @@ const { addToCart } = useCart();
 
         <div className="text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: product.description }} />
 
-        <div className="flex items-center gap-4 pt-4">
+        <div className="flex w-[350px] items-center gap-4 pt-4">
           <div className="flex border rounded">
-            <button onClick={decreaseQty} className="px-3">−</button>
-            <span className="px-4 font-semibold">{quantity}</span>
-            <button onClick={increaseQty} className="px-3">+</button>
+            <button onClick={decreaseQty} className="px-2 border-r-1">−</button>
+            <span className="px-2 font-semibold">{quantity}</span>
+            <button onClick={increaseQty} className="px-2 border-l-1">+</button>
           </div>
 
           <button
-  className="bg-[#159758] text-white px-6 py-3 font-semibold"
+  className="bg-[#159758] text-[12px] w-[200px] text-white px-3 py-3 font-bold"
   onClick={() => addToCart(product, quantity)}
 >
   ADD TO CART
@@ -154,7 +154,7 @@ const { addToCart } = useCart();
 
 
          <button
-  className="bg-black text-white px-6 py-3 font-semibold"
+  className="bg-[#159758] text-[12px] w-[200px] text-white px-3 py-3 font-bold"
   onClick={() => {
     addToCart(product, quantity);
     window.location.href = "/checkout";

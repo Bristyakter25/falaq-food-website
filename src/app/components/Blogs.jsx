@@ -10,15 +10,15 @@ import { FaRegMessage } from 'react-icons/fa6';
 
 export default function Blogs() {
   return (
-    <div className='mx-4'>
-        <section className="flex items-center py-5 gap-x-7">
-  <div className="w-[500px] ml-2 border-t-2 border-gray-300"></div>
+    <div className='mx-3'>
+        <section className="flex  justify-center  items-center py-5 gap-x-4">
+  <div className="w-[440px]  border-t-2 border-gray-300"></div>
 
   <h2 className="text-[#159758] text-xl font-semibold">
     নতুন ব্লগ পড়ুন
   </h2>
 
-  <div className="w-[500px] border-t-2 border-gray-300"></div>
+  <div className="w-[440px] border-t-2 border-gray-300"></div>
 </section>
 <section>
     <Swiper

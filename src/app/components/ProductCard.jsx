@@ -1,9 +1,11 @@
+import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function ProductCard({ product }) {
   const [imgIndex, setImgIndex] = useState(0);
-
+const { addToCart } = useCart();
+const [quantity, setQuantity] = useState(1);
   const images =
     product.imageURLs?.length > 0
       ? product.imageURLs
@@ -13,9 +15,10 @@ export default function ProductCard({ product }) {
     product.salePrice && product.salePrice < product.productPrice;
 
   return (
-    <Link href={`/products/${product._id}`}>
+    <div className="border p-4 border-gray-300 overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer relative">
+      <Link href={`/products/${product._id}`}>
       <div
-        className="border p-4 border-gray-300 overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer relative"
+        className=""
         onMouseEnter={() =>
           setImgIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
         }
@@ -51,15 +54,29 @@ export default function ProductCard({ product }) {
             </span>
           </div>
 
-          <button className="w-full font-semibold bg-[#159758] text-white py-2 hover:bg-green-700 transition">
-            ADD TO CART
-          </button>
-
-          <button className="w-full font-semibold bg-[#159758] text-white py-2 hover:bg-green-700 transition">
-            BUY NOW
-          </button>
+         
         </div>
       </div>
     </Link>
+    <button
+  className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
+  onClick={() => addToCart(product, quantity)}
+>
+  ADD TO CART
+</button>
+
+
+         <button
+  className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold"
+  onClick={() => {
+    addToCart(product, quantity);
+    window.location.href = "/checkout";
+  }}
+>
+  BUY NOW
+</button>
+
+
+    </div>
   );
 }
