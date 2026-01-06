@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { FaCircleChevronDown, FaCircleChevronUp, FaRegUser } from "react-icons/fa6";
+import {  FaRegUser } from "react-icons/fa6";
 import { TbSpeakerphone } from "react-icons/tb";
+import Link from "next/link";
 
 export default function Navbar() {
   const [categories, setCategories] = useState([]);
@@ -20,7 +21,7 @@ export default function Navbar() {
 
   return (
     <section>
-      {/* Top Bar */}
+     
       <div>
         <h2 className="text-white text-md py-2 px-7 text-center bg-[#159758]">
           আমাদের যে কোন পণ্য অর্ডার করতে WhatsApp করুন:{" "}
@@ -39,9 +40,9 @@ export default function Navbar() {
         </h2>
       </div>
 
-      {/* Navbar */}
+     
       <div className="navbar bg-base-100  py-4 px-6">
-        {/* Mobile Dropdown */}
+       
         <div className="navbar-start lg:hidden">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost">
@@ -60,7 +61,7 @@ export default function Navbar() {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-56 p-2 "
             >
-              {/* SHOP */}
+             
               <li className="relative group">
                 <span className="group flex items-center gap-1 cursor-pointer px-3 py-2 font-semibold">
                   SHOP
@@ -104,15 +105,15 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Logo */}
+       
         <div className="navbar-center">
           <img src="/falaq logo.webp" alt="logo" className="h-12 w-[120px] object-contain" />
         </div>
 
-        {/* Desktop Menu */}
+       
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal ml-7 text-sm font-medium gap-2">
-            {/* SHOP */}
+            
             <li className="relative group">
               <span className="group flex items-center gap-1 cursor-pointer px-3 py-2 font-semibold">
                 SHOP
@@ -122,14 +123,19 @@ export default function Navbar() {
 
               <div className="absolute left-0 top-full hidden group-hover:block bg-white  rounded-md p-3 w-[220px] z-50">
                 <ul className="space-y-2">
-                  {categories.map((cat) => (
-                    <li key={cat._id}>
-                      <a className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full block px-3 py-2 rounded font-medium text-gray-700">
-                        {cat.parentCategory}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+  {categories.map((cat) => (
+    <li key={cat._id}>
+      <Link
+        href={`/category/${cat._id}`}
+        className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0
+                   after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full
+                   block px-3 py-2 rounded font-medium text-gray-700"
+      >
+        {cat.parentCategory}
+      </Link>
+    </li>
+  ))}
+</ul>
               </div>
             </li>
 
@@ -158,7 +164,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Search & Cart */}
+       
         <label className="input flex ml-4 w-[880px] justify-between">
           <input type="search" required placeholder="Search for Products" />
           <svg

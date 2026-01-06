@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  images: {
+    domains: [
+      'res.cloudinary.com', 
+      'i.ibb.co',           
+      'img.garagepotti.xyz'
+    ],
+  },
 };
 
 export default nextConfig;

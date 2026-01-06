@@ -6,22 +6,33 @@ export default function FeaturedProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("https://server-homeshopbd-2-kohl.vercel.app/api/v1/product?page=1&limit=10")
+ useEffect(() => {
+    fetch(
+      "https://ecommerce-saas-server-wine.vercel.app/api/v1/product/website",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "store-id": "0000122", 
+        },
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
-        if (result?.data?.products) {
-          setProducts(result.data.products);
-        } else {
-          setProducts([]);
-        }
+        console.log("FULL PRODUCT RESPONSE 👉", result);
+
+        const products = result?.data?.data || [];
+
+        console.log("Resolved products 👉", products);
+
+        setProducts(products);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error loading products:", err);
+        console.error("Product fetch error:", err);
         setLoading(false);
       });
   }, []);
+
 
   if (loading) return <p className="text-center py-10">Loading...</p>;
   if (!products.length) return <p className="text-center py-10">No products found.</p>;
