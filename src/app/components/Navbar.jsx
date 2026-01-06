@@ -1,9 +1,9 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { RiArrowDropUpLine } from "react-icons/ri";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import {  FaRegUser } from "react-icons/fa6";
+import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
+import { FaRegUser } from "react-icons/fa6";
 import { TbSpeakerphone } from "react-icons/tb";
 import Link from "next/link";
 
@@ -11,17 +11,25 @@ export default function Navbar() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch("https://server-homeshopbd-2-kohl.vercel.app/api/v1/category")
+    fetch(
+      "https://ecommerce-saas-server-wine.vercel.app/api/v1/category/website/0000122"
+    )
       .then((res) => res.json())
-      .then((data) => {
-        setCategories(data?.data?.result || []);
+      .then((result) => {
+        // Remove duplicate parent categories
+        const uniqueCategories = Array.from(
+          new Map((result?.data || []).map((cat) => [cat.parentCategory, cat]))
+            .values()
+        );
+        setCategories(uniqueCategories);
+        console.log("Fetched categories:", uniqueCategories);
       })
       .catch((err) => console.error(err));
   }, []);
 
   return (
     <section>
-     
+      {/* Top Banner */}
       <div>
         <h2 className="text-white text-md py-2 px-7 text-center bg-[#159758]">
           আমাদের যে কোন পণ্য অর্ডার করতে WhatsApp করুন:{" "}
@@ -40,9 +48,9 @@ export default function Navbar() {
         </h2>
       </div>
 
-     
-      <div className="navbar bg-base-100  py-4 px-6">
-       
+      {/* Navbar */}
+      <div className="navbar bg-base-100 py-4 px-6">
+        {/* Mobile Menu */}
         <div className="navbar-start lg:hidden">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost">
@@ -53,35 +61,41 @@ export default function Navbar() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
               </svg>
             </label>
-
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-56 p-2 "
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-56 p-2"
             >
-             
               <li className="relative group">
                 <span className="group flex items-center gap-1 cursor-pointer px-3 py-2 font-semibold">
                   SHOP
                   <RiArrowDropDownLine className="w-4 h-4 group-hover:hidden" />
                   <RiArrowDropUpLine className="w-4 h-4 hidden group-hover:block" />
                 </span>
-
-                <div className="absolute left-0 top-full hidden group-hover:block bg-white  rounded-md p-3 w-[220px] z-50">
+                <div className="absolute left-0 top-full hidden group-hover:block bg-white rounded-md p-3 w-[220px] z-50">
                   <ul className="space-y-2">
                     {categories.map((cat) => (
                       <li key={cat._id}>
-                        <a className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full block px-3 py-2 rounded font-medium text-gray-700">
+                        <Link
+                          href={`/category/${encodeURIComponent(
+                            cat.parentCategory
+                          )}`}
+                          className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full block px-3 py-2 rounded font-medium text-gray-700"
+                        >
                           {cat.parentCategory}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
               </li>
-
               <li>
                 <a className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full px-3 py-2">
                   About
@@ -97,45 +111,48 @@ export default function Navbar() {
                   Contact
                 </a>
               </li>
-
               <li>
-                <button className="w-full text-white bg-[#159758] py-2 rounded-md">Offer</button>
+                <button className="w-full text-white bg-[#159758] py-2 rounded-md">
+                  Offer
+                </button>
               </li>
             </ul>
           </div>
         </div>
 
-       
+        {/* Logo */}
         <div className="navbar-center">
-          <img src="/falaq logo.webp" alt="logo" className="h-12 w-[120px] object-contain" />
+          <img
+            src="/falaq logo.webp"
+            alt="logo"
+            className="h-12 w-[120px] object-contain"
+          />
         </div>
 
-       
+        {/* Desktop Menu */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal ml-7 text-sm font-medium gap-2">
-            
             <li className="relative group">
               <span className="group flex items-center gap-1 cursor-pointer px-3 py-2 font-semibold">
                 SHOP
                 <RiArrowDropDownLine className="w-4 h-4 group-hover:hidden" />
                 <RiArrowDropUpLine className="w-4 h-4 hidden group-hover:block" />
               </span>
-
-              <div className="absolute left-0 top-full hidden group-hover:block bg-white  rounded-md p-3 w-[220px] z-50">
+              <div className="absolute left-0 top-full hidden group-hover:block bg-white rounded-md p-3 w-[220px] z-50">
                 <ul className="space-y-2">
-  {categories.map((cat) => (
-    <li key={cat._id}>
-      <Link
-        href={`/category/${cat._id}`}
-        className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0
-                   after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full
-                   block px-3 py-2 rounded font-medium text-gray-700"
-      >
-        {cat.parentCategory}
-      </Link>
-    </li>
-  ))}
-</ul>
+                  {categories.map((cat) => (
+                    <li key={cat._id}>
+                      <Link
+                        href={`/category/${encodeURIComponent(
+                          cat.parentCategory
+                        )}`}
+                        className="relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#159758] after:transition-all after:duration-300 hover:after:w-full block px-3 py-2 rounded font-medium text-gray-700"
+                      >
+                        {cat.parentCategory}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </li>
 
@@ -164,7 +181,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-       
+        {/* Search & Icons */}
         <label className="input flex ml-4 w-[880px] justify-between">
           <input type="search" required placeholder="Search for Products" />
           <svg
@@ -172,7 +189,13 @@ export default function Navbar() {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
-            <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.3-4.3"></path>
             </g>

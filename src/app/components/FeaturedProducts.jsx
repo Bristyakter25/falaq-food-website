@@ -18,11 +18,11 @@ export default function FeaturedProducts() {
     )
       .then((res) => res.json())
       .then((result) => {
-        console.log("FULL PRODUCT RESPONSE 👉", result);
+       
 
         const products = result?.data?.data || [];
 
-        console.log("Resolved products 👉", products);
+        console.log("Fetched products:", products);
 
         setProducts(products);
         setLoading(false);
