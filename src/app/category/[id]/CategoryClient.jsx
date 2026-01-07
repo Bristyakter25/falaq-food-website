@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
+import { useCart } from "@/context/CartContext";
 
 export default function CategoryClient({ initialProducts, categoryName }) {
   const [sortBy, setSortBy] = useState("latest");
@@ -12,9 +13,10 @@ export default function CategoryClient({ initialProducts, categoryName }) {
   const [tempMinPrice, setTempMinPrice] = useState(0);
   const [tempMaxPrice, setTempMaxPrice] = useState(4000);
 
-  
+  const { addToCart } = useCart();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(4000);
+  const [quantity, setQuantity] = useState(1);
 
   const filteredProducts = useMemo(() => {
     let updatedList = [...initialProducts];
@@ -167,7 +169,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
           </div>
 
          
-          <div className={`grid gap-5 ${
+          <div className={`grid gap-3 ${
             gridCols === 2
               ? "grid-cols-1 md:grid-cols-2"
               : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
@@ -212,13 +214,23 @@ export default function CategoryClient({ initialProducts, categoryName }) {
     </div>
 
    
-     <button className="bg-[#159758] my-3 text-white px-6 py-3 font-semibold">
-            ADD TO CART
-          </button>
+    <button
+  className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
+  onClick={() => addToCart(product, quantity)}
+>
+  ADD TO CART
+</button>
 
-          <button className="bg-[#159758] text-white px-6 py-3 font-semibold">
-            BUY NOW
-          </button>
+
+         <button
+  className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold"
+  onClick={() => {
+    addToCart(product, quantity);
+    window.location.href = "/checkout";
+  }}
+>
+  BUY NOW
+</button>
   </div>
 ))}
 
