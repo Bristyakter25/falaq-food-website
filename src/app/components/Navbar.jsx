@@ -6,10 +6,11 @@ import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa6";
 import { TbSpeakerphone } from "react-icons/tb";
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const [categories, setCategories] = useState([]);
-
+const { totalCount, subtotal, setIsDrawerOpen } = useCart();
   useEffect(() => {
     fetch(
       "https://ecommerce-saas-server-wine.vercel.app/api/v1/category/website/0000122"
@@ -202,16 +203,22 @@ export default function Navbar() {
           </svg>
         </label>
 
-        <div className="navbar-end flex gap-4 text-xl">
-          <FaRegUser className="cursor-pointer" />
-          <div className="relative">
-            <HiOutlineShoppingBag className="text-xl" />
-            <span className="absolute -top-1 -right-2 bg-[#159758] text-white text-xs px-1.5 rounded">
-              0
-            </span>
-          </div>
-          <p>0৳</p>
-        </div>
+       <div className="navbar-end flex gap-4 text-xl items-center">
+      <FaRegUser className="cursor-pointer" />
+      
+     
+      <div className="relative cursor-pointer" onClick={() => setIsDrawerOpen(true)}>
+        <HiOutlineShoppingBag className="text-xl" />
+        {totalCount > 0 && (
+          <span className="absolute -top-1 -right-2 bg-[#159758] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+            {totalCount}
+          </span>
+        )}
+      </div>
+
+      <p className="text-sm font-bold text-gray-700">{subtotal}৳</p>
+    </div>
+  
       </div>
     </section>
   );

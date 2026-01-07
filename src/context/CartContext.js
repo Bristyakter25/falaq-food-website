@@ -33,18 +33,19 @@ export function CartProvider({ children }) {
     );
   };
 
- 
- 
-
   const removeFromCart = (id) => {
     setCartItems((prev) => prev.filter((item) => item._id !== id));
   };
 
+ 
   const subtotal = cartItems.reduce(
     (sum, item) =>
       sum + (item.salePrice || item.productPrice) * item.quantity,
     0
   );
+
+  
+  const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -55,7 +56,8 @@ export function CartProvider({ children }) {
         subtotal,
         isDrawerOpen,
         setIsDrawerOpen,
-        updateQuantity
+        updateQuantity,
+        totalCount 
       }}
     >
       {children}
