@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import CategoryClient from "../category/[id]/CategoryClient";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState([]);
@@ -46,6 +47,7 @@ export default function FeaturedProducts() {
       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mt-12 mb-7 mx-4">
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />
+        
         ))}
       </div>
 

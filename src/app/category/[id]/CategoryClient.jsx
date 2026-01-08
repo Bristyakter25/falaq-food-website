@@ -169,6 +169,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
           </div>
 
          
+       
           <div className={`grid gap-3 ${
             gridCols === 2
               ? "grid-cols-1 md:grid-cols-2"
@@ -179,7 +180,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
     key={product._id}
     className="group border border-gray-100 px-3 py-4 flex flex-col hover:shadow-md transition"
   >
-    
+     <Link href={`/products/${product._id}`}>
     <div className="relative aspect-square overflow-hidden mb-4">
       <img
         src={product.imageURLs?.[0] || "/placeholder.webp"}
@@ -200,7 +201,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
       {product.name}
     </h2>
 
-    
+    </Link>
     <div className="flex items-center gap-3 mb-4">
       <span className="text-[#159758] font-bold text-lg">
         {product.salePrice} ৳
@@ -235,6 +236,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
 ))}
 
           </div>
+      
 
           
           {filteredProducts.length === 0 && (

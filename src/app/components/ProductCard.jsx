@@ -25,7 +25,7 @@ const [quantity, setQuantity] = useState(1);
         onMouseLeave={() => setImgIndex(0)}
       >
         {hasDiscount && (
-          <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 font-semibold rounded">
+          <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 font-semibold rounded">
             SALE {product.discount}%
           </span>
         )}
