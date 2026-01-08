@@ -21,7 +21,7 @@ export default function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 font-sans">
-      {/* 1. Stepper Breadcrumbs */}
+    
       <div className="flex justify-center items-center gap-4 text-gray-400 uppercase text-sm tracking-widest mb-12">
         <span className="text-gray-800 border-b-2 border-[#159758] pb-1 font-bold">Shopping Cart</span>
         <span>→</span>

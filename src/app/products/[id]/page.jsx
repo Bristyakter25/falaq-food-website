@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { IoLogoWhatsapp } from "react-icons/io5";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 
 
 
@@ -17,6 +18,7 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [thumbStart, setThumbStart] = useState(0);
   const maxVisibleThumbs = 3;
+   const router = useRouter();
 
 const { addToCart } = useCart();
   // Fetch product by _id
@@ -66,6 +68,12 @@ const { addToCart } = useCart();
 
   const increaseQty = () => {
     if (quantity < product.quantity) setQuantity((p) => p + 1);
+  };
+  const handleBuyNow = () => {
+    
+    addToCart(product, quantity);
+  
+    router.push("/checkout");
   };
 
   return (
@@ -153,15 +161,12 @@ const { addToCart } = useCart();
 </button>
 
 
-         <button
-  className="bg-[#159758] text-[12px] w-[200px] text-white px-3 py-3 font-bold"
-  onClick={() => {
-    addToCart(product, quantity);
-    window.location.href = "/checkout";
-  }}
->
-  BUY NOW
-</button>
+       <button 
+        className="bg-[#159758] text-[12px] w-[200px] text-white px-3 py-3 font-bold"
+        onClick={handleBuyNow}
+      >
+        BUY NOW
+      </button>
 
         </div>
 

@@ -1,25 +1,35 @@
 "use client";
+
 import { useCart } from "@/context/CartContext";
-import { useWishlist } from "@/context/WishlistContext"; // Import hook
+import { useWishlist } from "@/context/WishlistContext";
 import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }) {
   const [imgIndex, setImgIndex] = useState(0);
   const { addToCart } = useCart();
-  const { toggleWishlist, isInWishlist } = useWishlist(); // Use hook
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
 
   const isWishlisted = isInWishlist(product._id);
+  const router = useRouter();
 
   const images = product.imageURLs?.length > 0 ? product.imageURLs : ["/placeholder.png"];
   const hasDiscount = product.salePrice && product.salePrice < product.productPrice;
 
   const handleWishlistClick = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     e.stopPropagation();
     toggleWishlist(product);
+  };
+
+  const handleBuyNow = () => {
+    // Add product to cart
+    addToCart(product, quantity);
+    // Use next/router push to navigate after state update
+    router.push("/checkout");
   };
 
   return (
@@ -35,7 +45,6 @@ export default function ProductCard({ product }) {
             </span>
           )}
 
-      
           <button 
             onClick={handleWishlistClick}
             className="absolute top-2 left-3 z-10 p-2 bg-white rounded-full shadow-md transition-transform hover:scale-110"
@@ -63,12 +72,17 @@ export default function ProductCard({ product }) {
         </div>
       </Link>
       
-      <button className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold" onClick={() => addToCart(product, quantity)}>
+      <button 
+        className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
+        onClick={() => addToCart(product, quantity)}
+      >
         ADD TO CART
       </button>
 
-      <button className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold" 
-        onClick={() => { addToCart(product, quantity); window.location.href = "/checkout"; }}>
+      <button 
+        className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold"
+        onClick={handleBuyNow}
+      >
         BUY NOW
       </button>
     </div>
