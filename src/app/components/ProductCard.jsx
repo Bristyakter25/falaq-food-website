@@ -26,9 +26,9 @@ export default function ProductCard({ product }) {
   };
 
   const handleBuyNow = () => {
-    // Add product to cart
+  
     addToCart(product, quantity);
-    // Use next/router push to navigate after state update
+    
     router.push("/checkout");
   };
 

@@ -2,25 +2,31 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { useCart } from "@/context/CartContext";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useWishlist } from "@/context/WishlistContext";
+import { useRouter } from "next/navigation";
 
 export default function CategoryClient({ initialProducts, categoryName }) {
   const [sortBy, setSortBy] = useState("latest");
   const [gridCols, setGridCols] = useState(3);
+  const router = useRouter();
 
   const [tempMinPrice, setTempMinPrice] = useState(0);
   const [tempMaxPrice, setTempMaxPrice] = useState(4000);
 
   const { addToCart } = useCart();
-
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(4000);
-  const [quantity] = useState(1);
+  const quantity = 1;
 
   const { toggleWishlist, isInWishlist, isLoaded } = useWishlist();
+
+ 
+  const handleBuyNow = (product) => {
+    addToCart(product, quantity);
+    router.push("/checkout");
+  };
 
   const filteredProducts = useMemo(() => {
     let updatedList = [...initialProducts];
@@ -45,9 +51,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
   return (
     <div className="bg-white min-h-screen">
       <div className="flex items-center justify-center gap-4 py-10 border-b border-gray-100">
-        <Link href="/" className="text-3xl text-gray-400 hover:text-black">
-          ←
-        </Link>
+        <Link href="/" className="text-3xl text-gray-400 hover:text-black">←</Link>
         <h1 className="text-5xl font-normal text-gray-800 tracking-tight">
           {categoryName}
         </h1>
@@ -69,7 +73,6 @@ export default function CategoryClient({ initialProducts, categoryName }) {
                   right: `${100 - (tempMaxPrice / 4000) * 100}%`,
                 }}
               />
-
               <input
                 type="range"
                 min="0"
@@ -82,7 +85,6 @@ export default function CategoryClient({ initialProducts, categoryName }) {
                 }
                 className="absolute w-full appearance-none bg-transparent pointer-events-none cursor-pointer accent-[#159758] [&::-webkit-slider-thumb]:pointer-events-auto"
               />
-
               <input
                 type="range"
                 min="0"
@@ -97,35 +99,24 @@ export default function CategoryClient({ initialProducts, categoryName }) {
               />
             </div>
 
-            <div className="flex flex-col gap-4 text-sm">
-              <p className="text-gray-500 font-medium">
-                Price:{" "}
-                <span className="text-black font-bold">
-                  {tempMinPrice} ৳ — {tempMaxPrice} ৳
-                </span>
-              </p>
-
-              <button
-                onClick={() => {
-                  setMinPrice(tempMinPrice);
-                  setMaxPrice(tempMaxPrice);
-                }}
-                className="w-fit bg-gray-100 px-6 py-2 text-xs font-bold hover:bg-[#159758] hover:text-white transition uppercase tracking-widest"
-              >
-                Filter
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setMinPrice(tempMinPrice);
+                setMaxPrice(tempMaxPrice);
+              }}
+              className="w-fit bg-gray-100 px-6 py-2 text-xs font-bold hover:bg-[#159758] hover:text-white transition uppercase tracking-widest"
+            >
+              Filter
+            </button>
           </div>
         </aside>
 
         <main className="flex-grow min-h-[800px]">
-          <div
-            className={`grid gap-3 ${
-              gridCols === 2
-                ? "grid-cols-1 md:grid-cols-2"
-                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-            }`}
-          >
+          <div className={`grid gap-3 ${
+            gridCols === 2
+              ? "grid-cols-1 md:grid-cols-2"
+              : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          }`}>
             {filteredProducts.map((product) => {
               const isWishlisted = isInWishlist(product._id);
 
@@ -141,14 +132,13 @@ export default function CategoryClient({ initialProducts, categoryName }) {
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                       />
-
                       <button
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
                           toggleWishlist(product);
                         }}
-                        className="absolute top-2 right-2 bg-white p-2 rounded-full shadow"
+                        className="absolute top-2 left-3 z-10 p-2 bg-white rounded-full shadow-md transition-transform hover:scale-110"
                       >
                         {isWishlisted ? (
                           <AiFillHeart className="text-red-500 text-xl" />
@@ -157,8 +147,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
                         )}
                       </button>
                     </div>
-
-                    <h2 className="font-bold text-gray-800 mb-2 leading-tight">
+                    <h2 className="font-bold text-[15px] text-gray-800 mb-2 ">
                       {product.name}
                     </h2>
                   </Link>
@@ -167,26 +156,18 @@ export default function CategoryClient({ initialProducts, categoryName }) {
                     <span className="text-[#159758] font-bold text-lg">
                       {product.salePrice} ৳
                     </span>
-                    {product.productPrice > product.salePrice && (
-                      <span className="text-gray-400 line-through text-sm">
-                        {product.productPrice} ৳
-                      </span>
-                    )}
                   </div>
 
                   <button
-                    className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
+                    className="bg-[#159758] my-1 text-sm w-full text-white px-6 py-3 font-semibold"
                     onClick={() => addToCart(product, quantity)}
                   >
                     ADD TO CART
                   </button>
 
                   <button
-                    className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold"
-                    onClick={() => {
-                      addToCart(product, quantity);
-                      window.location.href = "/checkout";
-                    }}
+                    className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
+                    onClick={() => handleBuyNow(product)}
                   >
                     BUY NOW
                   </button>

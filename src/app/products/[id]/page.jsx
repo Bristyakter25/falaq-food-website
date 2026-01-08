@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 
 export default function ProductDetails() {
-  const { id } = useParams(); // this is the _id of the product
+  const { id } = useParams(); 
   const [product, setProduct] = useState(null);
   const [activeImg, setActiveImg] = useState(0);
   const [zoom, setZoom] = useState(1);
@@ -21,7 +21,7 @@ export default function ProductDetails() {
    const router = useRouter();
 
 const { addToCart } = useCart();
-  // Fetch product by _id
+ 
   useEffect(() => {
     fetch(`https://ecommerce-saas-server-wine.vercel.app/api/v1/product/${id}`, {
       headers: {
@@ -79,7 +79,7 @@ const { addToCart } = useCart();
   return (
     <div className="max-w-5xl mx-auto py-14 grid md:grid-cols-2 gap-10 items-start">
 
-      {/* LEFT: Images */}
+      
       <div className="flex gap-x-3 sticky top-24 self-start">
         <div className="flex flex-col gap-3 relative">
           {thumbStart > 0 && (
@@ -131,7 +131,7 @@ const { addToCart } = useCart();
         </div>
       </div>
 
-      {/* RIGHT: Info */}
+   
       <div className="space-y-4">
         <h1 className="text-3xl font-semibold text-gray-700">{product.name}</h1>
 
