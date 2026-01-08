@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
-import { FaRegUser } from "react-icons/fa6";
+import { FaHeart, FaRegUser } from "react-icons/fa6";
 import { TbSpeakerphone } from "react-icons/tb";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import { AiFillHeart } from "react-icons/ai";
 
 export default function Navbar() {
   const [categories, setCategories] = useState([]);
@@ -205,8 +206,10 @@ const { totalCount, subtotal, setIsDrawerOpen } = useCart();
 
        <div className="navbar-end flex gap-4 text-xl items-center">
       <FaRegUser className="cursor-pointer" />
-      
-     
+        <Link href="/wishlist" className="relative cursor-pointer">
+          <AiFillHeart className="text-2xl text-red-500" />
+        </Link>
+
       <div className="relative cursor-pointer" onClick={() => setIsDrawerOpen(true)}>
         <HiOutlineShoppingBag className="text-xl" />
         {totalCount > 0 && (
@@ -218,6 +221,7 @@ const { totalCount, subtotal, setIsDrawerOpen } = useCart();
 
       <p className="text-sm font-bold text-gray-700">{subtotal}৳</p>
     </div>
+
   
       </div>
     </section>

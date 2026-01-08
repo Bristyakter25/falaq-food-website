@@ -194,6 +194,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
           SALE
         </span>
       )}
+  
     </div>
 
    
