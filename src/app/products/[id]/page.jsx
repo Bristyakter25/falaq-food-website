@@ -77,7 +77,8 @@ const { addToCart } = useCart();
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-14 grid md:grid-cols-2 gap-10 items-start">
+    <div>
+      <div className="max-w-5xl mx-auto py-14 grid md:grid-cols-2 gap-10 items-start">
 
       
       <div className="flex gap-x-3 sticky top-24 self-start">
@@ -190,8 +191,42 @@ const { addToCart } = useCart();
               {product.category?.length ? product.category.join(", ") : "Organic Food"}
             </span>
           </p>
+   <div className="text-md text-gray-900">
+  <span className="font-bold text-lg ">Tags: </span>{" "}
+  {product.tags?.join(", ")}
+</div>
+
+
         </div>
       </div>
+    </div>
+   
+<div className="tabs flex border-t-2 pt-5 border-t-gray-300 items-center justify-center tabs-border">
+  <input type="radio" name="my_tabs_2" className="tab" aria-label="DESCRIPTION" defaultChecked/>
+  <div
+    className="tab-content  mx-10  leading-loose  bg-base-100 px-24 py-10"
+    dangerouslySetInnerHTML={{ __html: product.ingredient }}
+  />
+
+  <input type="radio" name="my_tabs_2" className="tab" aria-label="ADDITIONAL INFORMATION"  />
+  <div className="tab-content bg-base-100 p-10">
+    <div className="flex justify-between  px-72"> ওজন সিলেক্ট করুন 
+      <ul className=" flex gap-x-4">
+        <li>1kg</li>
+        <li>2kg</li>
+        <li>3kg</li>
+        </ul> 
+        </div>
+
+  </div>
+
+  <input type="radio" name="my_tabs_2" className="tab" aria-label="REVIEWS" />
+  <div
+    className="tab-content border-base-300 bg-base-100 p-10"
+   
+  />
+</div>
+
     </div>
   );
 }
