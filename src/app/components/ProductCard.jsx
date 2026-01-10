@@ -41,7 +41,7 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="border p-4 border-gray-300 overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer relative">
+    <div className="border py-4 px-3 border-gray-300 overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer relative">
       <Link href={`/products/${product._id}`}>
         <div
           onMouseEnter={() => setImgIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}

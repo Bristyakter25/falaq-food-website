@@ -20,7 +20,6 @@ export default function ProductDetails() {
 
   const maxVisibleThumbs = 3;
 
-  
   useEffect(() => {
     fetch(`https://ecommerce-saas-server-wine.vercel.app/api/v1/product/${id}`, {
       headers: {
@@ -29,42 +28,34 @@ export default function ProductDetails() {
       },
     })
       .then((res) => res.json())
-      .then((res) => setProduct(res?.data))
+      .then((res) => {
+        const data = res?.data;
+        const defaults = {};
+        if (data?.attributes) {
+          Object.entries(data.attributes).forEach(([key, values]) => {
+            defaults[key] = values[0];
+          });
+        }
+        setSelectedAttributes(defaults);
+        setProduct(data);
+      })
       .catch(console.error);
   }, [id]);
 
-  if (!product) {
-    return <p className="text-center py-20">Loading product...</p>;
-  }
-
-  
-  const effectiveAttributes = (() => {
-    if (!product?.attributes) return {};
-    if (selectedAttributes) return selectedAttributes;
-
-    const defaults = {};
-    Object.entries(product.attributes).forEach(([key, values]) => {
-      defaults[key] = values[0]; // default = first value, e.g., 1kg
-    });
-    return defaults;
-  })();
-
-  
-  const weightPriceMap = {};
-  Object.entries(product.attributes || {}).forEach(([key, values]) => {
-    if (key.toLowerCase() === "weight") {
-      values.forEach((val, idx) => {
-        weightPriceMap[val] = (product.salePrice ?? product.productPrice) * (idx + 1);
-      });
-    }
-  });
-
-  const selectedWeight = effectiveAttributes.Weight || "1kg";
-  const finalPrice = weightPriceMap[selectedWeight] ?? (product.salePrice ?? product.productPrice);
+  if (!product) return <p className="text-center py-20">Loading product...</p>;
 
  
+  const selectedVariant = product.variant?.find((v) =>
+    Object.entries(v.attributes).every(
+      ([key, value]) => selectedAttributes[key] === value
+    )
+  );
+
+  const finalPrice =
+    selectedVariant?.salePrice ?? selectedVariant?.productPrice ?? product.salePrice ?? product.productPrice;
+
   const images = product.imageURLs?.length ? product.imageURLs : ["/placeholder.png"];
-  const hasDiscount = product.salePrice && product.salePrice < product.productPrice;
+  const hasDiscount = finalPrice < (selectedVariant?.productPrice ?? product.productPrice);
 
   const scrollUp = () => thumbStart > 0 && setThumbStart((p) => p - 1);
   const scrollDown = () =>
@@ -85,17 +76,15 @@ export default function ProductDetails() {
     setOrigin({ x: 50, y: 50 });
   };
 
- 
   const decreaseQty = () => quantity > 1 && setQuantity((p) => p - 1);
   const increaseQty = () =>
-    quantity < product.quantity && setQuantity((p) => p + 1);
+    quantity < (selectedVariant?.quantity ?? product.quantity) && setQuantity((p) => p + 1);
 
- 
   const handleAddToCart = (redirect = false) => {
     addToCart(
       {
         ...product,
-        selectedAttributes: effectiveAttributes,
+        selectedAttributes,
         price: finalPrice,
       },
       quantity,
@@ -108,7 +97,7 @@ export default function ProductDetails() {
   return (
     <div>
       <div className="max-w-5xl mx-auto py-14 grid md:grid-cols-2 gap-10 items-start">
-        
+       
         <div className="flex gap-x-3 sticky top-24 self-start">
           <div className="flex flex-col gap-3 relative">
             {thumbStart > 0 && (
@@ -119,7 +108,6 @@ export default function ProductDetails() {
                 ▲
               </button>
             )}
-
             {images
               .slice(thumbStart, thumbStart + maxVisibleThumbs)
               .map((img, idx) => {
@@ -130,14 +118,11 @@ export default function ProductDetails() {
                     src={img}
                     onClick={() => setActiveImg(realIndex)}
                     className={`w-[170px] h-[132px] object-cover border cursor-pointer ${
-                      activeImg === realIndex
-                        ? "border-[#159758]"
-                        : "border-gray-300"
+                      activeImg === realIndex ? "border-[#159758]" : "border-gray-300"
                     }`}
                   />
                 );
               })}
-
             {thumbStart + maxVisibleThumbs < images.length && (
               <button
                 onClick={scrollDown}
@@ -166,19 +151,15 @@ export default function ProductDetails() {
 
        
         <div className="space-y-4">
-          <h1 className="text-3xl font-semibold text-gray-700">
-            {product.name}
-          </h1>
+          <h1 className="text-3xl font-semibold text-gray-700">{product.name}</h1>
 
           <div className="flex items-center gap-2">
             {hasDiscount && (
               <span className="text-gray-400 line-through text-sm">
-                {product.productPrice} ৳
+                {selectedVariant?.productPrice ?? product.productPrice} ৳
               </span>
             )}
-            <span className="text-[#159758] font-semibold">
-              {finalPrice} ৳
-            </span>
+            <span className="text-[#159758] font-semibold">{finalPrice} ৳</span>
           </div>
 
           <div
@@ -186,7 +167,7 @@ export default function ProductDetails() {
             dangerouslySetInnerHTML={{ __html: product.description }}
           />
 
-          
+         
           {product.attributes &&
             Object.entries(product.attributes).map(([attrName, values]) => (
               <div key={attrName} className="flex items-center gap-4 py-3">
@@ -197,12 +178,12 @@ export default function ProductDetails() {
                       key={value}
                       onClick={() =>
                         setSelectedAttributes((prev) => ({
-                          ...(prev ?? effectiveAttributes),
+                          ...(prev ?? {}),
                           [attrName]: value,
                         }))
                       }
                       className={`px-4 py-2 border rounded ${
-                        effectiveAttributes[attrName] === value
+                        selectedAttributes[attrName] === value
                           ? "border-[#159758] bg-[#159758] text-white"
                           : "border-gray-300"
                       }`}
@@ -214,7 +195,7 @@ export default function ProductDetails() {
               </div>
             ))}
 
-         
+        
           <div className="flex w-[350px] items-center gap-4 pt-4">
             <div className="flex border rounded">
               <button onClick={decreaseQty} className="px-2 border-r-1">
@@ -258,9 +239,7 @@ export default function ProductDetails() {
             <p className="font-bold">
               Category:{" "}
               <span className="font-normal">
-                {product.category?.length
-                  ? product.category.join(", ")
-                  : "Organic Food"}
+                {product.category?.length ? product.category.join(", ") : "Organic Food"}
               </span>
             </p>
             <div className="text-md text-gray-900">
@@ -269,7 +248,33 @@ export default function ProductDetails() {
             </div>
           </div>
         </div>
+        
       </div>
+      <div className="tabs flex border-t-2 pt-5 border-t-gray-300 items-center justify-center tabs-border">
+  <input type="radio" name="my_tabs_2" className="tab" aria-label="DESCRIPTION" defaultChecked/>
+  <div
+    className="tab-content  mx-10  leading-loose  bg-base-100 px-24 py-10"
+    dangerouslySetInnerHTML={{ __html: product.ingredient }}
+  />
+
+  <input type="radio" name="my_tabs_2" className="tab" aria-label="ADDITIONAL INFORMATION"  />
+  <div className="tab-content bg-base-100 p-10">
+    <div className="flex justify-between  px-72"> ওজন সিলেক্ট করুন 
+      <ul className=" flex gap-x-4">
+        <li>1kg</li>
+        <li>2kg</li>
+        <li>3kg</li>
+        </ul> 
+        </div>
+
+  </div>
+
+  <input type="radio" name="my_tabs_2" className="tab" aria-label="REVIEWS" />
+  <div
+    className="tab-content border-base-300 bg-base-100 p-10"
+   
+  />
+</div>
     </div>
   );
 }
