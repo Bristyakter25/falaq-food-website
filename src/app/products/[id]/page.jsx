@@ -250,31 +250,44 @@ export default function ProductDetails() {
         </div>
         
       </div>
-      <div className="tabs flex border-t-2 pt-5 border-t-gray-300 items-center justify-center tabs-border">
-  <input type="radio" name="my_tabs_2" className="tab" aria-label="DESCRIPTION" defaultChecked/>
+     <div className="tabs flex border-t-2 pt-5 border-t-gray-300 items-center justify-center tabs-border">
+  <input
+    type="radio"
+    name="my_tabs_2"
+    className="tab"
+    aria-label="DESCRIPTION"
+    defaultChecked
+  />
+
+ 
   <div
-    className="tab-content  mx-10  leading-loose  bg-base-100 px-24 py-10"
+    className="tab-content w-full max-w-5xl px-4 md:px-10 lg:px-24 py-10 bg-base-100 text-gray-700 leading-relaxed
+             [&_ul]:list-disc [&_ul]:list-inside [&_ol]:list-decimal [&_ol]:list-inside [&_li]:mb-2
+             [&_table]:border [&_table]:border-gray-300 [&_th]:border [&_th]:border-gray-300 [&_th]:px-3 [&_th]:py-2 [&_th]:bg-gray-100 [&_td]:border [&_td]:border-gray-300 [&_td]:px-3 [&_td]:py-2 [&_td]:align-top"
     dangerouslySetInnerHTML={{ __html: product.ingredient }}
   />
 
-  <input type="radio" name="my_tabs_2" className="tab" aria-label="ADDITIONAL INFORMATION"  />
+  <input
+    type="radio"
+    name="my_tabs_2"
+    className="tab"
+    aria-label="ADDITIONAL INFORMATION"
+  />
   <div className="tab-content bg-base-100 p-10">
-    <div className="flex justify-between  px-72"> ওজন সিলেক্ট করুন 
-      <ul className=" flex gap-x-4">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-10">
+      <span>ওজন সিলেক্ট করুন</span>
+      <ul className="flex gap-x-4 list-disc list-inside">
         <li>1kg</li>
         <li>2kg</li>
         <li>3kg</li>
-        </ul> 
-        </div>
-
+      </ul>
+    </div>
   </div>
 
   <input type="radio" name="my_tabs_2" className="tab" aria-label="REVIEWS" />
-  <div
-    className="tab-content border-base-300 bg-base-100 p-10"
-   
-  />
+  <div className="tab-content border-base-300 bg-base-100 p-10" />
 </div>
+
     </div>
   );
 }
