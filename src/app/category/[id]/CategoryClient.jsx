@@ -15,7 +15,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
   const [tempMinPrice, setTempMinPrice] = useState(0);
   const [tempMaxPrice, setTempMaxPrice] = useState(4000);
 
-  const { addToCart } = useCart();
+  const { addToCart, setIsDrawerOpen } = useCart();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(4000);
   const quantity = 1;
@@ -23,10 +23,7 @@ export default function CategoryClient({ initialProducts, categoryName }) {
   const { toggleWishlist, isInWishlist, isLoaded } = useWishlist();
 
  
-  const handleBuyNow = (product) => {
-    addToCart(product, quantity);
-    router.push("/checkout");
-  };
+ 
 
   const filteredProducts = useMemo(() => {
     let updatedList = [...initialProducts];
@@ -44,6 +41,8 @@ export default function CategoryClient({ initialProducts, categoryName }) {
     }
 
     return updatedList;
+
+
   }, [initialProducts, minPrice, maxPrice, sortBy]);
 
   if (!isLoaded) return null;
@@ -119,7 +118,20 @@ export default function CategoryClient({ initialProducts, categoryName }) {
           }`}>
             {filteredProducts.map((product) => {
               const isWishlisted = isInWishlist(product._id);
+ const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, quantity);
+    setIsDrawerOpen(true); 
+  };
 
+  const handleBuyNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, quantity);
+    setIsDrawerOpen(false); 
+    router.push("/checkout");
+  };
               return (
                 <div
                   key={product._id}
@@ -158,19 +170,18 @@ export default function CategoryClient({ initialProducts, categoryName }) {
                     </span>
                   </div>
 
-                  <button
-                    className="bg-[#159758] my-1 text-sm w-full text-white px-6 py-3 font-semibold"
-                    onClick={() => addToCart(product, quantity)}
-                  >
-                    ADD TO CART
-                  </button>
-
-                  <button
-                    className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
-                    onClick={() => handleBuyNow(product)}
-                  >
-                    BUY NOW
-                  </button>
+                 <button
+        className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold hover:bg-green-700 transition"
+        onClick={handleAddToCart}
+      >
+        ADD TO CART
+      </button>
+      <button
+        className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold hover:bg-green-700 transition"
+        onClick={handleBuyNow}
+      >
+        BUY NOW
+      </button>
                 </div>
               );
             })}

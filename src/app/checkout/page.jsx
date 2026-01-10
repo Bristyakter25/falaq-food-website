@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function CheckoutPage() {
   const { cartItems, subtotal } = useCart();
-  const [shipping, setShipping] = useState(50); // Default to Inside Dhaka (50৳)
+  const [shipping, setShipping] = useState(50); 
   
   const [formData, setFormData] = useState({
     name: "",
@@ -34,14 +34,14 @@ export default function CheckoutPage() {
     <div className="bg-white min-h-screen py-10 px-4">
       <div className="max-w-4xl mx-auto">
         <form onSubmit={handleSubmit}>
-          {/* 1. BILLING & SHIPPING SECTION */}
+      
           <section className="mb-12">
             <h2 className="text-lg font-bold text-gray-800 border-b pb-2 mb-6 tracking-tight uppercase">
               Billing & Shipping
             </h2>
             
             <div className="space-y-5">
-              {/* Name */}
+         
               <div>
                 <label className="block text-xs font-bold text-gray-600 mb-1">
                   আপনার নাম <span className="text-red-500">*</span>
@@ -55,7 +55,7 @@ export default function CheckoutPage() {
                 />
               </div>
 
-              {/* Mobile */}
+          
               <div>
                 <label className="block text-xs font-bold text-gray-600 mb-1">
                   মোবাইল নম্বর <span className="text-red-500">*</span>
@@ -69,7 +69,7 @@ export default function CheckoutPage() {
                 />
               </div>
 
-              {/* Address */}
+            
               <div>
                 <label className="block text-xs font-bold text-gray-600 mb-1">
                   আপনার ঠিকানা <span className="text-red-500">*</span>
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
                 />
               </div>
 
-              {/* Order Notes */}
+          
               <div>
                 <label className="block text-xs font-bold text-gray-600 mb-1 uppercase">
                   Order notes <span className="text-gray-300 font-normal">(optional)</span>
@@ -96,7 +96,7 @@ export default function CheckoutPage() {
                 ></textarea>
               </div>
 
-              {/* Shipping Selection */}
+             
               <div className="border rounded-sm overflow-hidden">
                 <label className="flex items-center justify-between px-4 py-4 border-b border-gray-100 cursor-pointer bg-gray-50/30">
                   <div className="flex items-center gap-3">
@@ -129,45 +129,56 @@ export default function CheckoutPage() {
             </div>
           </section>
 
-          {/* 2. YOUR ORDER SECTION */}
+         
           <section className="mb-8">
             <h2 className="text-lg font-bold text-gray-800 text-center mb-8 uppercase tracking-widest">
               Your Order
             </h2>
 
             <div className="border-t border-gray-200">
-              {/* Header */}
+              
               <div className="flex justify-between py-3 border-b border-gray-100 text-[10px] uppercase font-bold text-gray-400 tracking-widest">
                 <span>Product</span>
                 <span>Subtotal</span>
               </div>
 
-              {/* Items List */}
-              {cartItems.map((item) => (
-                <div key={item._id} className="flex items-center justify-between py-4 border-b border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <img 
-                      src={item.imageURLs?.[0]} 
-                      alt="" 
-                      className="w-12 h-12 object-cover"
-                    />
-                    <span className="text-xs text-gray-600 font-bold max-w-[250px]">
-                      {item.name} <span className="text-gray-400 font-normal lowercase ml-1">× {item.quantity}</span>
-                    </span>
-                  </div>
-                  <span className="text-xs font-bold text-gray-400">
-                    {(item.salePrice || item.productPrice) * item.quantity} ৳
-                  </span>
-                </div>
-              ))}
+              
+             {cartItems.map((item, index) => (
+  <div
+    key={`${item._id}-${JSON.stringify(item.selectedAttributes)}-${index}`}
+    className="flex items-center justify-between py-4 border-b border-gray-100"
+  >
+    <div className="flex items-center gap-3">
+      <img src={item.imageURLs?.[0]} alt="" className="w-12 h-12 object-cover" />
+      <div className="flex flex-col">
+        <span className="text-xs text-gray-600 font-bold max-w-[250px]">
+          {item.name} <span className="text-gray-400 font-normal lowercase ml-1">× {item.quantity}</span>
+        </span>
+        {item.selectedAttributes && (
+          <div className="text-xs text-gray-400 ml-1 mt-1">
+            {Object.entries(item.selectedAttributes).map(([key, value]) => (
+              <span key={key} className="mr-2">
+                {key}: {value}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+    <span className="text-xs font-bold text-gray-400">
+      {(item.price ?? 0) * item.quantity} ৳
+    </span>
+  </div>
+))}
 
-              {/* Subtotal Row */}
+
+              
               <div className="flex justify-between py-4 border-b border-gray-100 text-xs text-gray-400 font-bold uppercase tracking-widest">
                 <span>Subtotal</span>
                 <span>{subtotal} ৳</span>
               </div>
 
-              {/* Total Row */}
+             
               <div className="flex justify-between py-4 text-xs font-bold uppercase tracking-widest border-b border-gray-100">
                 <span className="text-gray-800">Total</span>
                 <span className="text-[#159758] text-lg">{subtotal + shipping} ৳</span>
@@ -175,7 +186,7 @@ export default function CheckoutPage() {
             </div>
           </section>
 
-          {/* 3. PAYMENT SECTION */}
+         
           <section className="bg-gray-50 p-6 rounded-sm mb-6">
             <div className="flex flex-col gap-4">
               <div className="font-bold text-xs text-gray-700">Cash on delivery</div>
