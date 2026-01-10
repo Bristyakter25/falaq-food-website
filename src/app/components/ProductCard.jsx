@@ -9,12 +9,12 @@ import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }) {
   const [imgIndex, setImgIndex] = useState(0);
-  const { addToCart } = useCart();
+  const { addToCart, setIsDrawerOpen } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
 
-  const isWishlisted = isInWishlist(product._id);
   const router = useRouter();
+  const isWishlisted = isInWishlist(product._id);
 
   const images = product.imageURLs?.length > 0 ? product.imageURLs : ["/placeholder.png"];
   const hasDiscount = product.salePrice && product.salePrice < product.productPrice;
@@ -25,10 +25,18 @@ export default function ProductCard({ product }) {
     toggleWishlist(product);
   };
 
-  const handleBuyNow = () => {
-  
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     addToCart(product, quantity);
-    
+    setIsDrawerOpen(true); 
+  };
+
+  const handleBuyNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, quantity);
+    setIsDrawerOpen(false); 
     router.push("/checkout");
   };
 
@@ -39,13 +47,15 @@ export default function ProductCard({ product }) {
           onMouseEnter={() => setImgIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))}
           onMouseLeave={() => setImgIndex(0)}
         >
+        
           {hasDiscount && (
             <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 font-semibold rounded">
               SALE {product.discount}%
             </span>
           )}
 
-          <button 
+         
+          <button
             onClick={handleWishlistClick}
             className="absolute top-2 left-3 z-10 p-2 bg-white rounded-full shadow-md transition-transform hover:scale-110"
           >
@@ -56,31 +66,42 @@ export default function ProductCard({ product }) {
             )}
           </button>
 
+          
           <div className="h-56 overflow-hidden">
-            <img src={images[imgIndex]} alt={product.name} className="w-full h-full object-cover transition duration-300" />
+            <img
+              src={images[imgIndex]}
+              alt={product.name}
+              className="w-full h-full object-cover transition duration-300"
+            />
           </div>
 
+        
           <div className="py-3 space-y-2">
             <h3 className="font-bold text-gray-800 text-[14px] line-clamp-2">{product.name}</h3>
             <div className="flex items-center gap-2">
-              {hasDiscount && <span className="text-gray-400 line-through text-sm">{product.productPrice} ৳</span>}
+              {hasDiscount && (
+                <span className="text-gray-400 line-through text-sm">
+                  {product.productPrice.toLocaleString()} ৳
+                </span>
+              )}
               <span className="text-[#159758] font-semibold">
-                {hasDiscount ? product.salePrice : product.productPrice} ৳
+                {(hasDiscount ? product.salePrice : product.productPrice).toLocaleString()} ৳
               </span>
             </div>
           </div>
         </div>
       </Link>
+
       
-      <button 
-        className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold"
-        onClick={() => addToCart(product, quantity)}
+      <button
+        className="bg-[#159758] my-3 text-sm w-full text-white px-6 py-3 font-semibold hover:bg-green-700 transition"
+        onClick={handleAddToCart}
       >
         ADD TO CART
       </button>
 
-      <button 
-        className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold"
+      <button
+        className="bg-[#159758] text-sm w-full text-white px-6 py-3 font-semibold hover:bg-green-700 transition"
         onClick={handleBuyNow}
       >
         BUY NOW

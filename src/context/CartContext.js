@@ -8,12 +8,18 @@ export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = (product, quantity = 1, options = { silent: false }) => {
     setCartItems((prev) => {
-      const existing = prev.find((p) => p._id === product._id);
+      const existing = prev.find(
+        (p) =>
+          p._id === product._id &&
+          JSON.stringify(p.selectedAttributes) ===
+            JSON.stringify(product.selectedAttributes || {})
+      );
+
       if (existing) {
         return prev.map((p) =>
-          p._id === product._id
+          p === existing
             ? { ...p, quantity: p.quantity + quantity }
             : p
         );
@@ -21,11 +27,11 @@ export function CartProvider({ children }) {
       return [...prev, { ...product, quantity }];
     });
 
-    setIsDrawerOpen(true);
+    if (!options.silent) setIsDrawerOpen(true);
   };
 
   const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return; 
+    if (newQuantity < 1) return;
     setCartItems((prev) =>
       prev.map((item) =>
         item._id === id ? { ...item, quantity: newQuantity } : item
@@ -37,14 +43,12 @@ export function CartProvider({ children }) {
     setCartItems((prev) => prev.filter((item) => item._id !== id));
   };
 
- 
   const subtotal = cartItems.reduce(
     (sum, item) =>
-      sum + (item.salePrice || item.productPrice) * item.quantity,
+      sum + (item.price ?? item.salePrice ?? item.productPrice) * item.quantity,
     0
   );
 
-  
   const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -53,11 +57,11 @@ export function CartProvider({ children }) {
         cartItems,
         addToCart,
         removeFromCart,
+        updateQuantity,
         subtotal,
+        totalCount,
         isDrawerOpen,
         setIsDrawerOpen,
-        updateQuantity,
-        totalCount 
       }}
     >
       {children}
