@@ -6,7 +6,7 @@ import { useCart } from "@/context/CartContext";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useWishlist } from "@/context/WishlistContext";
 import { useRouter } from "next/navigation";
-
+import { BsGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 export default function CategoryClient({ initialProducts, categoryName }) {
   const [sortBy, setSortBy] = useState("latest");
   const [gridCols, setGridCols] = useState(3);
@@ -111,6 +111,38 @@ export default function CategoryClient({ initialProducts, categoryName }) {
         </aside>
 
         <main className="flex-grow min-h-[800px]">
+           <div className="flex flex-wrap justify-between items-center mb-8 pb-4 border-b border-gray-100 text-sm text-gray-500">
+            <div className="flex items-center gap-2 font-medium">
+              <Link href="/" className="hover:text-[#159758]">Home</Link> / {categoryName}
+            </div>
+
+            <div className="flex items-center gap-6">
+              <div className="hidden md:flex items-center gap-3 text-xl border-r pr-6 border-gray-200">
+                <BsGridFill
+                  className={`cursor-pointer ${gridCols === 2 ? "text-black" : "text-gray-300"}`}
+                  onClick={() => setGridCols(2)}
+                />
+                <BsGrid3X3GapFill
+                  className={`cursor-pointer ${gridCols === 3 ? "text-black" : "text-gray-300"}`}
+                  onClick={() => setGridCols(3)}
+                />
+              </div>
+
+              <p className="font-medium">
+                Show: <span className="text-black font-bold">{filteredProducts.length}</span>
+              </p>
+
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="bg-transparent font-bold outline-none"
+              >
+                <option value="latest">Sort by latest</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
           <div className={`grid gap-3 ${
             gridCols === 2
               ? "grid-cols-1 md:grid-cols-2"
