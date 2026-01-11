@@ -42,19 +42,33 @@ export default function ProductDetails() {
       .catch(console.error);
   }, [id]);
 
-  if (!product) return <p className="text-center py-20">Loading product...</p>;
+ 
 
  
-  const selectedVariant = product.variant?.find((v) =>
-    Object.entries(v.attributes).every(
-      ([key, value]) => selectedAttributes[key] === value
-    )
-  );
+ const selectedVariant = product?.variant?.find((v) =>
+  Object.entries(v.attributes).every(
+    ([key, value]) => selectedAttributes?.[key] === value
+  )
+);
+
+
+
+if (!product) {
+  return <p className="text-center py-20">Loading product...</p>;
+}
+
+
+
 
   const finalPrice =
     selectedVariant?.salePrice ?? selectedVariant?.productPrice ?? product.salePrice ?? product.productPrice;
+    
+const images = selectedVariant?.image
+  ? [selectedVariant.image, ...(product.imageURLs || [])]
+  : product.imageURLs?.length
+    ? product.imageURLs
+    : ["/placeholder.png"];
 
-  const images = product.imageURLs?.length ? product.imageURLs : ["/placeholder.png"];
   const hasDiscount = finalPrice < (selectedVariant?.productPrice ?? product.productPrice);
 
   const scrollUp = () => thumbStart > 0 && setThumbStart((p) => p - 1);
@@ -176,12 +190,14 @@ export default function ProductDetails() {
                   {values.map((value) => (
                     <button
                       key={value}
-                      onClick={() =>
-                        setSelectedAttributes((prev) => ({
-                          ...(prev ?? {}),
-                          [attrName]: value,
-                        }))
-                      }
+                      onClick={() => {
+  setSelectedAttributes((prev) => ({
+    ...(prev ?? {}),
+    [attrName]: value,
+  }));
+  setActiveImg(0); // ← reset image here
+}}
+
                       className={`px-4 py-2 border rounded ${
                         selectedAttributes[attrName] === value
                           ? "border-[#159758] bg-[#159758] text-white"
