@@ -9,9 +9,14 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { AiFillHeart } from "react-icons/ai";
 
+
+import SignInDrawer from "./Auth/SignInDrawer";
+
 export default function Navbar() {
   const [categories, setCategories] = useState([]);
 const { totalCount, subtotal, setIsDrawerOpen } = useCart();
+
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     fetch(
       "https://ecommerce-saas-server-wine.vercel.app/api/v1/category/website/0000122"
@@ -205,7 +210,19 @@ const { totalCount, subtotal, setIsDrawerOpen } = useCart();
         </label>
 
        <div className="navbar-end flex gap-4 text-xl items-center">
-      <FaRegUser className="cursor-pointer" />
+     
+       
+        <button onClick={() => setOpen(true)}>
+        <FaRegUser className="cursor-pointer" />
+        </button>
+
+      <SignInDrawer 
+        open={open} 
+        onClose={() => setOpen(false)} 
+      />
+
+
+      
         <Link href="/wishlist" className="relative cursor-pointer">
           <AiFillHeart className="text-2xl text-red-500" />
         </Link>
