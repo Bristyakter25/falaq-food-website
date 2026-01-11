@@ -24,7 +24,7 @@ const SignInDrawer = ({ open, onClose }) => {
     }
 
     try {
-      // 1️⃣ Call login API
+      
       const res = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,10 +39,10 @@ const SignInDrawer = ({ open, onClose }) => {
 
       const token = data.data.accessToken;
 
-      // 2️⃣ Save token locally
+      
       localStorage.setItem("token", token);
 
-      // 3️⃣ Fetch user profile
+    
       const profileRes = await fetch(`${BASE_URL}/users/my-profile`, {
         method: "GET",
         headers: {
@@ -54,7 +54,7 @@ const SignInDrawer = ({ open, onClose }) => {
       const profileData = await profileRes.json();
       localStorage.setItem("user", JSON.stringify(profileData));
 
-      // 4️⃣ Success Swal
+     
       Swal.fire({
         icon: "success",
         title: "Login successful",
@@ -63,7 +63,7 @@ const SignInDrawer = ({ open, onClose }) => {
         showConfirmButton: false,
       });
 
-      // 5️⃣ Close drawer after login
+      
       setTimeout(() => {
         onClose();
       }, 2000);
@@ -105,7 +105,7 @@ const SignInDrawer = ({ open, onClose }) => {
         requiredMark={false}
         className="mt-2"
       >
-        {/* Phone Number */}
+        
         <Form.Item
           label={
             <span className="text-gray-700 text-sm">
@@ -120,7 +120,7 @@ const SignInDrawer = ({ open, onClose }) => {
           />
         </Form.Item>
 
-        {/* Password */}
+       
         <Form.Item
           label={
             <span className="text-gray-700 text-sm">
@@ -135,7 +135,7 @@ const SignInDrawer = ({ open, onClose }) => {
           />
         </Form.Item>
 
-        {/* Login Button */}
+       
         <Form.Item className="mt-8">
           <Button
             type="primary"
@@ -147,7 +147,7 @@ const SignInDrawer = ({ open, onClose }) => {
           </Button>
         </Form.Item>
 
-        {/* Footer */}
+       
         <div className="flex justify-between items-center -mt-2">
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox className="text-xs text-gray-500">Remember me</Checkbox>
@@ -157,7 +157,7 @@ const SignInDrawer = ({ open, onClose }) => {
           </a>
         </div>
 
-        {/* Create Account */}
+       
         <div className="mt-16 pt-10 border-t border-gray-100 text-center">
           <div className="mb-6">
             <div className="w-16 h-16 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -167,11 +167,12 @@ const SignInDrawer = ({ open, onClose }) => {
           </div>
 
           <Link
-            href="/register"
-            className="text-gray-800 font-bold text-sm tracking-widest border-b-2 border-[#10B981] pb-0.5 hover:text-emerald-600 hover:border-emerald-600 transition-all uppercase"
-          >
-            CREATE AN ACCOUNT
-          </Link>
+    href="/register"
+    onClick={() => onClose()} 
+    className="text-gray-800 font-bold text-sm tracking-widest border-b-2 border-[#10B981] pb-0.5 hover:text-emerald-600 hover:border-emerald-600 transition-all uppercase"
+  >
+    CREATE AN ACCOUNT
+  </Link>
         </div>
       </Form>
     </Drawer>
