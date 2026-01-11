@@ -38,11 +38,12 @@ export default function CartSidebar() {
           ) : (
             cartItems.map((item) => (
               <div key={item._id} className="flex gap-4 border-b pb-4">
-                <img
-                  src={item.imageURLs?.[0] || "/placeholder.png"}
-                  alt={item.name}
-                  className="w-16 h-16 object-cover rounded"
-                />
+               <img
+  src={item.selectedImage}
+  alt={item.name}
+  className="w-12 h-12 object-cover"
+/>
+
                 <div className="flex-grow">
                   <h3 className="text-sm font-semibold leading-tight">{item.name}</h3>
                 

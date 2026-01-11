@@ -96,14 +96,19 @@ const images = selectedVariant?.image
 
   const handleAddToCart = (redirect = false) => {
     addToCart(
-      {
-        ...product,
-        selectedAttributes,
-        price: finalPrice,
-      },
-      quantity,
-      { silent: redirect }
-    );
+  {
+    ...product,
+    selectedAttributes,
+    price: finalPrice,
+    selectedImage:
+      selectedVariant?.image ||
+      product.imageURLs?.[activeImg] ||
+      product.imageURLs?.[0],
+  },
+  quantity,
+  { silent: redirect }
+);
+
 
     if (redirect) router.push("/checkout");
   };

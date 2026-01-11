@@ -149,7 +149,12 @@ export default function CheckoutPage() {
     className="flex items-center justify-between py-4 border-b border-gray-100"
   >
     <div className="flex items-center gap-3">
-      <img src={item.imageURLs?.[0]} alt="" className="w-12 h-12 object-cover" />
+      <img
+  src={item.selectedImage}
+  alt={item.name}
+  className="w-12 h-12 object-cover"
+/>
+
       <div className="flex flex-col">
         <span className="text-xs text-gray-600 font-bold max-w-[250px]">
           {item.name} <span className="text-gray-400 font-normal lowercase ml-1">× {item.quantity}</span>
