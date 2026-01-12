@@ -188,6 +188,11 @@ export default function Navbar() {
               <label tabIndex={0} className="cursor-pointer">{renderUserIcon()}</label>
               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 mt-2">
                 <li className="text-sm font-bold px-4 py-2 border-b">{user.name}</li>
+                <li>
+          <Link href="/dashboard" className="flex items-center gap-2 hover:bg-gray-100 py-3">
+            <span className="text-sm font-medium">Dashboard</span>
+          </Link>
+        </li>
                 <li><button onClick={handleLogout} className="text-red-500">Logout</button></li>
               </ul>
             </div>

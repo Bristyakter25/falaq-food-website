@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { IoCheckmarkSharp, IoCloseOutline } from "react-icons/io5";
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity, subtotal } = useCart();
-  const [shipping, setShipping] = useState(50); 
+  const [shipping, setShipping] = useState(50);
+  const [mounted, setMounted] = useState(false);
+
+  // Hydration-safe: render only after client mount
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
   if (!cartItems.length) {
     return (
@@ -27,7 +32,6 @@ export default function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 font-sans">
-      
       <div className="flex justify-center items-center gap-4 text-gray-400 uppercase text-sm tracking-widest mb-12">
         <span className="text-gray-800 border-b-2 border-[#159758] pb-1 font-bold">
           Shopping Cart
@@ -38,7 +42,6 @@ export default function CartPage() {
         <span className="hover:text-gray-600 cursor-pointer">Order Complete</span>
       </div>
 
-     
       <div className="bg-[#159758] text-white px-6 py-4 rounded-sm flex items-center gap-3 mb-8 shadow-sm">
         <div className="bg-white/20 p-1 rounded-full">
           <IoCheckmarkSharp className="text-white text-lg" />
@@ -47,7 +50,7 @@ export default function CartPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10 items-start">
-        
+        {/* Cart Table */}
         <div className="flex-grow w-full overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
@@ -60,23 +63,29 @@ export default function CartPage() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {cartItems.map((item) => (
-                <tr key={item._id} className="group">
-                  
+              {cartItems.map((item, index) => (
+                <tr
+                  key={`${item.productId}-${JSON.stringify(item.selectedAttributes || {})}-${index}`}
+                  className="group"
+                >
+                  {/* Remove Button */}
                   <td className="py-6 w-8">
                     <button
-                      onClick={() => removeFromCart(item._id)}
+                      onClick={() =>
+                        removeFromCart(item.productId, item.selectedAttributes)
+                      }
                       className="text-gray-400 hover:text-red-500 transition"
                     >
                       <IoCloseOutline size={22} />
                     </button>
                   </td>
-                  
+
+                  {/* Product */}
                   <td className="py-6">
                     <div className="flex items-center gap-4">
                       <img
-                        src={item.imageURLs?.[0]}
-                        alt=""
+                        src={item.selectedImage || item.image || "/placeholder.png"}
+                        alt={item.name}
                         className="w-20 h-20 object-cover border border-gray-100"
                       />
                       <div>
@@ -97,17 +106,23 @@ export default function CartPage() {
                       </div>
                     </div>
                   </td>
-                
+
+                  {/* Price */}
                   <td className="py-6 text-right text-gray-500 font-medium">
-                    {(item.price ?? item.salePrice ?? item.productPrice).toLocaleString()} ৳
+                    {(item.price ?? 0).toLocaleString()} ৳
                   </td>
-                  
+
+                  {/* Quantity */}
                   <td className="py-6">
                     <div className="flex justify-center">
                       <div className="flex items-center border border-gray-200 rounded-sm">
                         <button
                           onClick={() =>
-                            updateQuantity(item._id, item.quantity - 1)
+                            updateQuantity(
+                              item.productId,
+                              item.quantity - 1,
+                              item.selectedAttributes
+                            )
                           }
                           className="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-500"
                         >
@@ -118,7 +133,11 @@ export default function CartPage() {
                         </span>
                         <button
                           onClick={() =>
-                            updateQuantity(item._id, item.quantity + 1)
+                            updateQuantity(
+                              item.productId,
+                              item.quantity + 1,
+                              item.selectedAttributes
+                            )
                           }
                           className="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-500"
                         >
@@ -127,16 +146,16 @@ export default function CartPage() {
                       </div>
                     </div>
                   </td>
-                  
+
+                  {/* Subtotal */}
                   <td className="py-6 text-right text-[#159758] font-bold text-lg">
-                    {((item.price ?? item.salePrice ?? item.productPrice) * item.quantity).toLocaleString()} ৳
+                    {(item.price * item.quantity).toLocaleString()} ৳
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-         
           <div className="flex flex-wrap gap-4 mt-8">
             <input
               type="text"
@@ -149,7 +168,7 @@ export default function CartPage() {
           </div>
         </div>
 
-       
+        {/* Cart Totals */}
         <div className="w-full lg:w-[400px] border p-8 bg-white">
           <h2 className="text-xl font-bold text-gray-800 border-b pb-4 mb-6 uppercase tracking-tight">
             Cart Totals
@@ -158,9 +177,7 @@ export default function CartPage() {
           <div className="space-y-6">
             <div className="flex justify-between items-center text-sm border-b pb-4">
               <span className="text-gray-600 font-medium">Subtotal</span>
-              <span className="text-gray-400 font-medium">
-                {subtotal.toLocaleString()} ৳
-              </span>
+              <span className="text-gray-400 font-medium">{subtotal.toLocaleString()} ৳</span>
             </div>
 
             <div className="flex justify-between border-b pb-6">

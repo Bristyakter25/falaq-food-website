@@ -156,7 +156,7 @@ export default function ProductCard({ product }) {
         BUY NOW
       </button>
 
-      {/* ATTRIBUTE MODAL */}
+   
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white w-[400px] p-6 rounded-lg relative max-h-[90vh] overflow-y-auto">
@@ -176,12 +176,12 @@ export default function ProductCard({ product }) {
               ))}
             </div>
 
-            {/* Price */}
+           
             <div className="mb-4 text-[#159758] font-bold text-lg">
               {finalPrice.toLocaleString()} ৳
             </div>
 
-            {/* Attributes */}
+           
             {product.attributes &&
               Object.entries(product.attributes).map(([attrName, values]) => (
                 <div key={attrName} className="flex items-center gap-2 mb-3">
@@ -206,7 +206,7 @@ export default function ProductCard({ product }) {
                 </div>
               ))}
 
-            {/* Quantity */}
+           
             <div className="flex items-center gap-3 my-4">
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
