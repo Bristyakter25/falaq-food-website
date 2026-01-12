@@ -10,7 +10,7 @@ export default function CartPage() {
   const [shipping, setShipping] = useState(50);
   const [mounted, setMounted] = useState(false);
 
-  // Hydration-safe: render only after client mount
+  
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
@@ -50,7 +50,7 @@ export default function CartPage() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10 items-start">
-        {/* Cart Table */}
+       
         <div className="flex-grow w-full overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
@@ -68,7 +68,7 @@ export default function CartPage() {
                   key={`${item.productId}-${JSON.stringify(item.selectedAttributes || {})}-${index}`}
                   className="group"
                 >
-                  {/* Remove Button */}
+                 
                   <td className="py-6 w-8">
                     <button
                       onClick={() =>
@@ -80,7 +80,7 @@ export default function CartPage() {
                     </button>
                   </td>
 
-                  {/* Product */}
+                
                   <td className="py-6">
                     <div className="flex items-center gap-4">
                       <img
@@ -107,12 +107,12 @@ export default function CartPage() {
                     </div>
                   </td>
 
-                  {/* Price */}
+                  
                   <td className="py-6 text-right text-gray-500 font-medium">
                     {(item.price ?? 0).toLocaleString()} ৳
                   </td>
 
-                  {/* Quantity */}
+                 
                   <td className="py-6">
                     <div className="flex justify-center">
                       <div className="flex items-center border border-gray-200 rounded-sm">
@@ -147,7 +147,7 @@ export default function CartPage() {
                     </div>
                   </td>
 
-                  {/* Subtotal */}
+                 
                   <td className="py-6 text-right text-[#159758] font-bold text-lg">
                     {(item.price * item.quantity).toLocaleString()} ৳
                   </td>
@@ -168,7 +168,7 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* Cart Totals */}
+       
         <div className="w-full lg:w-[400px] border p-8 bg-white">
           <h2 className="text-xl font-bold text-gray-800 border-b pb-4 mb-6 uppercase tracking-tight">
             Cart Totals

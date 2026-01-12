@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function OrderDetailsPage() {
   const router = useRouter();
-  const { id } = useParams(); // Get order ID from URL
+  const { id } = useParams(); 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,13 +22,13 @@ export default function OrderDetailsPage() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token, // your instructor does not use Bearer
+        Authorization: token, 
       },
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
-          // Find the order by ID
+       
           const foundOrder = data.data.data.find((o) => o._id === id);
           setOrder(foundOrder || null);
         } else {

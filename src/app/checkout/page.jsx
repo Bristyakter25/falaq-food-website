@@ -44,7 +44,7 @@ const handleSubmit = async (e) => {
   const userData = JSON.parse(savedUser);
   const userId = userData.data?._id;
 
-  // Validate required fields before sending
+
   if (!formData.name || !formData.mobile || !formData.address) {
     alert("Please fill all required fields!");
     return;
@@ -96,7 +96,7 @@ const handleSubmit = async (e) => {
       headers: {
         "Content-Type": "application/json",
         "store-id": process.env.NEXT_PUBLIC_STORE_ID,
-        "Authorization": token // or `Bearer ${token}` if backend expects it
+        "Authorization": token 
       },
       body: JSON.stringify(orderData),
     });
@@ -127,7 +127,7 @@ const handleSubmit = async (e) => {
     <div className="bg-white min-h-screen py-10 px-4">
       <div className="max-w-4xl mx-auto">
         <form onSubmit={handleSubmit}>
-          {/* ================= Billing & Shipping ================= */}
+         
           <section className="mb-12">
             <h2 className="text-lg font-bold text-gray-800 border-b pb-2 mb-6 tracking-tight uppercase">
               Billing & Shipping
@@ -211,7 +211,7 @@ const handleSubmit = async (e) => {
             </div>
           </section>
 
-          {/* ================= Your Order ================= */}
+         
           <section className="mb-8">
             <h2 className="text-lg font-bold text-gray-800 text-center mb-8 uppercase tracking-widest">
               Your Order
@@ -261,7 +261,7 @@ const handleSubmit = async (e) => {
             </div>
           </section>
 
-          {/* ================= Payment Method ================= */}
+          
           <section className="bg-gray-50 p-6 rounded-sm mb-6">
             <div className="flex flex-col gap-4">
               <div className="font-bold text-xs text-gray-700">Cash on delivery</div>
