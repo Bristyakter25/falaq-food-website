@@ -184,7 +184,7 @@ export default function Navbar() {
       
         <div className="navbar-end flex gap-4 mr-3 text-xl items-center">
           {user ? (
-            <div className="dropdown dropdown-end">
+            <div className="dropdown ">
               <label tabIndex={0} className="cursor-pointer">{renderUserIcon()}</label>
               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 mt-2">
                 <li className="text-sm font-bold px-4 py-2 border-b">{user.name}</li>

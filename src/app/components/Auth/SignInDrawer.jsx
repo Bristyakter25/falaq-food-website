@@ -106,19 +106,27 @@ const SignInDrawer = ({ open, onClose }) => {
         className="mt-2"
       >
         
-        <Form.Item
-          label={
-            <span className="text-gray-700 text-sm">
-              Phone number <span className="text-red-500">*</span>
-            </span>
-          }
-          name="username"
-          rules={[{ required: true, message: "Please enter your phone number" }]}
-        >
-          <Input
-            className="!rounded-none h-11 !border-gray-200 focus:!border-emerald-500 hover:!border-emerald-500 shadow-none"
-          />
-        </Form.Item>
+       <Form.Item
+  label={
+    <span className="text-gray-700 text-sm">
+      Phone number <span className="text-red-500">*</span>
+    </span>
+  }
+  name="username"
+  rules={[
+    { required: true, message: "Please enter your phone number" },
+    {
+      pattern: /^01\d{9}$/,
+      message: "Enter a valid Bangladeshi phone number (11 digits, starts with 01)",
+    },
+  ]}
+>
+  <Input
+    maxLength={11}
+    placeholder="01XXXXXXXXX"
+    className="!rounded-none h-11 !border-gray-200 focus:!border-emerald-500 hover:!border-emerald-500 shadow-none"
+  />
+</Form.Item>
 
        
         <Form.Item

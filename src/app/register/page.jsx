@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function RegisterPage() {
@@ -13,6 +13,18 @@ export default function RegisterPage() {
   });
 
   const [loading, setLoading] = useState(false);
+const [phoneNumber, setPhoneNumber] = useState("");
+const [phoneError, setPhoneError] = useState(false);
+
+useEffect(() => {
+  if (!phoneNumber) {
+    setPhoneError(false);
+    return;
+  }
+
+  const isValid = /^01\d{9}$/.test(phoneNumber);
+  setPhoneError(!isValid);
+}, [phoneNumber]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -129,19 +141,34 @@ export default function RegisterPage() {
 
              
               <div>
-                <label className="block text-sm font-medium mb-2">
-                  Phone number <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  inputMode="numeric"
-                  placeholder="01XXXXXXXXX"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 p-3 outline-none focus:border-[#10B981] transition-all"
-                />
-              </div>
+  <label className="block text-sm font-medium mb-2">
+    Phone number <span className="text-red-500">*</span>
+  </label>
+
+  <input
+    type="tel"
+    inputMode="numeric"
+    placeholder="01XXXXXXXXX"
+    value={phoneNumber}
+    maxLength={11}
+    onChange={(e) => {
+      const value = e.target.value.replace(/\D/g, "");
+      setPhoneNumber(value);
+    }}
+    className={`w-full border p-3 outline-none transition-all
+      ${phoneError
+        ? "border-red-500 focus:border-red-500"
+        : "border-gray-300 focus:border-[#10B981]"
+      }`}
+  />
+
+  {phoneError && (
+    <p className="text-red-500 text-sm mt-1">
+      Enter a valid Bangladeshi phone number (11 digits, starts with 01)
+    </p>
+  )}
+</div>
+
 
               
               <div>
